@@ -7,6 +7,7 @@ Welcome to the Love Calculator app! This app helps you test your love compatibil
 **Installation:**
 
 To run this app, you'll need Node.js and npm (or yarn) installed on your machine. You'll also need the Expo CLI. 
+For more info: 
 [Read Expo documentation](https://docs.expo.dev/workflow/overview/)
 [Download Node.js](https://nodejs.org/en)
 
