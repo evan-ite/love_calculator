@@ -44,11 +44,15 @@ Once the dependencies are installed, you can download the Expo Go app in the app
 This will start the Expo development server. You can then open the Expo Go app on your iOS or Android device, and scan the QR code from the Expo development server to open the app on your device. Alternatively, you can run the app in an iOS or Android simulator.
 
 **Usage:**
+
 Follow the on-screen instructions to test your love compatibility! Enter your name and your crush's name, and click "Test Now <3" to see the results.
 
 **References:**
+
 love calculator API: https://rapidapi.com/ajith/api/love-calculator
+
 GIPHY API: https://developers.giphy.com/docs/api/
 
 **License:**
+
 This project is licensed under the MIT License - see the LICENSE file for details.
