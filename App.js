@@ -1,63 +1,82 @@
-import React from 'react';
-import { StyleSheet, View, Button, Text } from 'react-native';
-import * as AuthSession from 'expo-auth-session';
-import * as Random from 'expo-random';
-
-AuthSession.makeRedirectUri({ useProxy: true }); // Ensure you use the correct redirect URI
+import React, { useState } from 'react';
+import { View, Image, Text, TextInput, Alert} from 'react-native';
+import axios from 'axios';
+import styles from './styles';
+import CustomButton from './button';
 
 export default function App() {
-  const [token, setToken] = React.useState(null);
-  const [error, setError] = React.useState(null);
+	const [name1, setName1] = useState('');
+	const [name2, setName2] = useState('');
+	const [matchResult, setMatchResult] = useState(null);
+	const [gifResult, setGif] = useState(null);
 
-  const spotifyAuth = async () => {
-    try {
-      const redirectUri = AuthSession.makeRedirectUri({ useProxy: true });
-	  console.log("Redirect URI: ", redirectUri);
-      const clientId = '868c93bc7c7e400abb6ec9349cc9c4ee'; // Replace with your Spotify client ID
-      const responseType = 'code';
-      const scope = encodeURI('user-read-private user-read-email'); // Scopes for which access is requested
-      const state = Random.getRandomBytes(16).toString(); // A secure random string for CSRF protection
-      const usePKCE = true;
-      const result = await AuthSession.startAsync({
-        authUrl: `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=${responseType}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&state=${state}&show_dialog=true`,
-        usePKCE
-      });
+const handleLoveMatch = async () => {
+	if (!name1 || !name2) {
+	Alert.alert('Error', 'Please enter both names');
+	return;
+	}
+	try {
+	const response = await axios.get(
+		'https://love-calculator.p.rapidapi.com/getPercentage',
+		{
+		params: {
+			fname: name1,
+			sname: name2,
+		},
+		headers: {
+			'X-RapidAPI-Key': '0fd87e703bmsh75422011067d9eep12be63jsn1a9b43714a8a',
+			'X-RapidAPI-Host': 'love-calculator.p.rapidapi.com',
+		},
+		}
+	);
+	const matchData = response.data;
+	setMatchResult(matchData);
 
-      if (result.type === 'success' && result.params.code) {
-        // Use the authorization code to get tokens
-        const code = result.params.code;
-        const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Basic ${btoa(`${clientId}:${YOUR_CLIENT_SECRET}`)}`, // Client Secret should only be used here if backend
-          },
-          body: `grant_type=authorization_code&code=${code}&redirect_uri=${encodeURIComponent(redirectUri)}`
-        });
-        const data = await tokenResponse.json();
-        setToken(data.access_token);
-      } else {
-        setError(result.params.error || 'Something went wrong');
-      }
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+	} catch (error) {
+	console.error('Error fetching love match:', error);
+	Alert.alert('Error', 'Failed to fetch love match percentage');
+	}
+};
 
-  return (
-    <View style={styles.container}>
-      <Button title="Login with Spotify" onPress={spotifyAuth} />
-      {token && <Text>Access Token: {token}</Text>}
-      {error && <Text>Error: {error}</Text>}
-    </View>
-  );
+	return (
+	<View style={styles.container}>
+	{!matchResult ? (
+		<>
+		<Text style={styles.title}>Test your love match!</Text>
+		<TextInput
+			style={styles.input}
+			placeholder="Enter Name 1"
+			value={name1}
+			onChangeText={setName1}
+		/>
+		<TextInput
+			style={styles.input}
+			placeholder="Enter Name 2"
+			value={name2}
+			onChangeText={setName2}
+		/>
+		<CustomButton title="Test Now <3" onPress={handleLoveMatch} />
+		</>
+	) : (
+		<View style={styles.container}>
+			<Text style={styles.result}>
+				Love match between {matchResult.fname} and {matchResult.sname} {'\n'}
+				<Text style={styles.percentage}>
+					{matchResult.percentage}% {'\n'}
+				</Text>
+				{matchResult.result}
+			</Text>
+			<CustomButton
+				title="Test Again"
+				onPress={() => {
+					setMatchResult(null);
+					setGif(null);
+					setName1('');
+					setName2('');
+			}}/>
+      </View>
+    )}
+  </View>
+);
+
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-});
