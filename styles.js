@@ -10,7 +10,7 @@ container: {
 },
 resultContainer: {
 	flex: 1,
-	justifyContent: 'center',
+	justifyContent: 'space-around',
 	alignItems: 'center',
 	marginBottom: 100,
 	marginTop: 100,
@@ -21,8 +21,7 @@ inResultContainer: {
 	justifyContent: 'center',
 	alignItems: 'center',
 	marginHorizontal: 25,
-	// marginBottom: 100,
-	// marginTop: 100,
+	margin: 10,
 	backgroundColor: 'rgb(161, 37, 161)',
 },
 title: {

@@ -33,7 +33,8 @@ const handleLoveMatch = async () => {
 	const matchData = response.data;
 	setMatchResult(matchData);
 
-	const gifUrl = await fetchGif(matchData.percentage);
+	console.log("PERCENTAGE", matchData.percentage);
+	const gifUrl = await fetchGif(matchData);
 	setGif(gifUrl);
 
 	} catch (error) {
@@ -82,6 +83,7 @@ const handleLoveMatch = async () => {
 				title="Test Again"
 				onPress={() => {
 					setMatchResult(null);
+					setGif(null);
 					setName1('');
 					setName2('');
 			}}/>

@@ -1,13 +1,16 @@
 import axios from 'axios';
 
-export default function fetchGif({percentage}) {
-	//ev.prevenDefault(); // stop page from reloading
+export default function fetchGif(matchData) {
+	const { percentage } = matchData;
 	let search;
 	if (percentage >= 80) {
+		console.log("TEST hoog percentage", percentage);
 		search = "love";
 	} else if (percentage >= 50) {
+		console.log("TEST midden percentage", percentage);
 		search = "cool";
 	} else {
+		console.log("TEST laag percentage", percentage);
 		search = "heartbreak";
 	}
 
@@ -22,7 +25,7 @@ export default function fetchGif({percentage}) {
 			.then(content => {
 				console.log("Data:", content.data);
 				console.log("Meta:", content.meta);
-				 const gifUrl = content.data[0].images.downsized.url;
+				const gifUrl = content.data[0].images.downsized.url;
 				resolve(gifUrl)
 			})
 			.catch(error => {
@@ -30,5 +33,4 @@ export default function fetchGif({percentage}) {
 				reject(error); // Rejecting the promise on fetch error
 			});
 	});
-
 }
