@@ -1,4 +1,4 @@
-	import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
 container: {
@@ -9,26 +9,42 @@ container: {
 	backgroundColor: 'rgb(161, 37, 161)',
 },
 resultContainer: {
-	flex: 1,
-	justifyContent: 'space-around',
+	justifyContent: 'center',
 	alignItems: 'center',
-	marginBottom: 100,
-	marginTop: 100,
-	backgroundColor: 'rgb(161, 37, 161)',
+	marginBottom: '7%',
 },
-inResultContainer: {
+titleContainer: {
 	flex: 1,
 	justifyContent: 'center',
 	alignItems: 'center',
-	marginHorizontal: 25,
-	margin: 10,
-	backgroundColor: 'rgb(161, 37, 161)',
+},
+gifContainer: {
+	justifyContent: 'center',
+	alignItems: 'center',
+	backgroundColor: '#F26CA7',
+	padding: 30,
+	borderRadius: 15,
+},
+emptyContainer: {
+	height: '20%',
+},
+empty: {
+	flex: 1,
+	height: '40%',
 },
 title: {
+	textAlign: 'center',
 	fontSize: 44,
-	marginBottom: 50,
 	color: 'rgb(245, 235, 232)',
 	fontWeight: '900',
+	position: 'absolute',
+	top: '38%',
+},
+heart: {
+	width: 300,
+	height: 300,
+	position: 'absolute',
+	bottom: '5%',
 },
 input: {
 	width: '100%',
@@ -41,21 +57,28 @@ input: {
 	borderRadius: 15,
 },
 percentage: {
-	fontSize: 100,
+	fontSize: 90,
+	color: 'rgb(245, 235, 232)',
+	fontWeight: '900',
+	marginTop: 10,
+},
+result: {
+	marginTop: '30%',
+	fontSize: 30,
 	color: 'rgb(245, 235, 232)',
 	fontWeight: '900',
 },
-result: {
+resultQuote: {
 	fontSize: 35,
 	color: 'rgb(245, 235, 232)',
 	fontWeight: '900',
-	marginBottom: 20,
+	marginTop: '10%',
 },
 gif: {
-	margin: 30,
 	width: 300,
-	height: 200,
-}
+	height: 250,
+	borderRadius: 15,
+},
 });
 
 export default styles;

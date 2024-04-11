@@ -10,8 +10,9 @@
   },
   "dependencies": {
     "16": "^0.0.2",
+    "@expo-google-fonts/pacifico": "^0.2.3",
     "axios": "^1.6.8",
-    "expo": "^49.0.23",
+    "expo": "^50.0.15",
     "expo-auth-session": "~5.0.2",
     "expo-crypto": "~12.4.1",
     "expo-random": "~13.2.0",

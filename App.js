@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Image, Text, TextInput, Alert} from 'react-native';
 import axios from 'axios';
 import styles from './styles';
 import CustomButton from './button';
+import BackButton from './backbutton';
 import fetchGif from './gif';
 
 export default function App() {
@@ -10,6 +11,8 @@ export default function App() {
 	const [name2, setName2] = useState('');
 	const [matchResult, setMatchResult] = useState(null);
 	const [gif, setGif] = useState(null);
+
+const inputRef2 = useRef(null);
 
 const handleLoveMatch = async () => {
 	if (!name1 || !name2) {
@@ -47,46 +50,59 @@ const handleLoveMatch = async () => {
 	<View style={styles.container}>
 	{!matchResult ? (
 		<>
-		<Text style={styles.title}>Test your love match!</Text>
+		<View style={styles.titleContainer}>
+			<Image
+			source={require('./gif/fluffy_heart.png')}
+			style={styles.heart}
+			></Image>
+			<Text style={styles.title}>Match Calculator</Text>
+		</View>
 		<TextInput
 			style={styles.input}
-			placeholder="Enter Name 1"
+			placeholder="Enter your name :p"
 			value={name1}
 			onChangeText={setName1}
+			onSubmitEditing={() => inputRef2.current.focus()}
 		/>
 		<TextInput
+			ref={inputRef2}
 			style={styles.input}
-			placeholder="Enter Name 2"
+			placeholder="Enter your crushes name ;)"
 			value={name2}
 			onChangeText={setName2}
 		/>
 		<CustomButton title="Test Now <3" onPress={handleLoveMatch} />
+		<View style={styles.emptyContainer}>
+		</View>
 		</>
 	) : (
-		<View style={styles.resultContainer}>
-
-			<View style={styles.inResultContainer}>
+		<View style={styles.container}>
+			<View style={styles.resultContainer}>
 				<Text style={styles.result}>
-					Love match between {matchResult.fname} and {matchResult.sname}... {'\n'}
+					{matchResult.fname} and {matchResult.sname}...
+				</Text>
+			</View>
+			<View style={styles.gifContainer}>
+				<Image source={{ uri: gif }} style={styles.gif} ></Image>
+				<Text style={styles.percentage}>
+					{matchResult.percentage}%
+				</Text>
+			</View>
+			<View style={styles.resultContainer}>
+				<Text style={styles.resultQuote}>
 					{matchResult.result}
 				</Text>
 			</View>
-			<View style={styles.inResultContainer}>
-				<Image source={{ uri: gif }} style={styles.gif} ></Image>
+			<View style={styles.resultContainer}>
+				<BackButton
+					title="Test Again"
+					onPress={() => {
+						setMatchResult(null);
+						setGif(null);
+						setName1('');
+						setName2('');
+				}}/>
 			</View>
-			<View style={styles.inResultContainer}>
-				<Text style={styles.percentage}>
-					{matchResult.percentage}% {'\n'}
-				</Text>
-			</View>
-			<CustomButton
-				title="Test Again"
-				onPress={() => {
-					setMatchResult(null);
-					setGif(null);
-					setName1('');
-					setName2('');
-			}}/>
       </View>
     )}
   </View>
