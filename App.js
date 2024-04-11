@@ -3,12 +3,13 @@ import { View, Image, Text, TextInput, Alert} from 'react-native';
 import axios from 'axios';
 import styles from './styles';
 import CustomButton from './button';
+import fetchGif from './gif';
 
 export default function App() {
 	const [name1, setName1] = useState('');
 	const [name2, setName2] = useState('');
 	const [matchResult, setMatchResult] = useState(null);
-	const [gifResult, setGif] = useState(null);
+	const [gif, setGif] = useState(null);
 
 const handleLoveMatch = async () => {
 	if (!name1 || !name2) {
@@ -32,9 +33,12 @@ const handleLoveMatch = async () => {
 	const matchData = response.data;
 	setMatchResult(matchData);
 
+	const gifUrl = await fetchGif(matchData.percentage);
+	setGif(gifUrl);
+
 	} catch (error) {
-	console.error('Error fetching love match:', error);
-	Alert.alert('Error', 'Failed to fetch love match percentage');
+		console.error('Error fetching love match:', error);
+		Alert.alert('Error', 'Failed to fetch love match percentage');
 	}
 };
 
@@ -58,19 +62,26 @@ const handleLoveMatch = async () => {
 		<CustomButton title="Test Now <3" onPress={handleLoveMatch} />
 		</>
 	) : (
-		<View style={styles.container}>
-			<Text style={styles.result}>
-				Love match between {matchResult.fname} and {matchResult.sname} {'\n'}
+		<View style={styles.resultContainer}>
+
+			<View style={styles.inResultContainer}>
+				<Text style={styles.result}>
+					Love match between {matchResult.fname} and {matchResult.sname}... {'\n'}
+					{matchResult.result}
+				</Text>
+			</View>
+			<View style={styles.inResultContainer}>
+				<Image source={{ uri: gif }} style={styles.gif} ></Image>
+			</View>
+			<View style={styles.inResultContainer}>
 				<Text style={styles.percentage}>
 					{matchResult.percentage}% {'\n'}
 				</Text>
-				{matchResult.result}
-			</Text>
+			</View>
 			<CustomButton
 				title="Test Again"
 				onPress={() => {
 					setMatchResult(null);
-					setGif(null);
 					setName1('');
 					setName2('');
 			}}/>
