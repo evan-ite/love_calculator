@@ -1,6 +1,6 @@
 ## Love Calculator
 
-Welcome to the Love Calculator app! This app helps you test your love compatibility with your crush. I used this project to practice with React Native Expo and API's
+Welcome to the Love Calculator app! This project was my introduction to react native, creating a very simple app to understand how react native works, using a very simple existing API. The app helps you test your love compatibility with your crush.
 
 <img src="screenshot_home.PNG" alt="Screenshot homepage" width="200"> <img src="screenshot_result.PNG" alt="Screenshot result page" width="200" >
 
